@@ -3,6 +3,7 @@ FROM gtomscs/hpc
 RUN apt update && \
     apt upgrade -y && \
     apt install -y \
+        binutils-dev \
         libunwind8 libunwind8-dbg libunwind8-dev \
 	    cfortran f2c fcc ftnchek gfortran libgfortran3-dbg \
 	    libiberty-dev \
