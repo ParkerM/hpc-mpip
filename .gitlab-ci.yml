@@ -1,0 +1,27 @@
+image: docker:stable
+services:
+  - docker:dind
+
+stages:
+  - fixup-image
+
+variables:
+  DOCKER_HOST: tcp://docker:2375
+  DOCKER_DRIVER: overlay2
+
+before_script:
+  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
+
+.build-image-template:
+  stage: fixup-image
+  script:
+    - docker build -t ${CI_REGISTRY_IMAGE} .
+    - docker push ${CI_REGISTRY_IMAGE}
+
+build-image-default:
+  extends: .build-image-template
+  only:
+    refs:
+      - master
+  except:
+    - web
